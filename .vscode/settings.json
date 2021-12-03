@@ -2,7 +2,8 @@
   "deno.enable": true,
   "deno.lint": true,
   "deno.unstable": true,
-  "deno.suggest.imports.hosts": {
-    "https://deno.land": true
+  "deno.config": "./deno.json",
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
   }
 }
