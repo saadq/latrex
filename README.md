@@ -1,6 +1,6 @@
 # latrex
 
-> A small wrapper for generating PDFs with LaTeX in Deno.
+> A small library for running LaTeX child processes in Deno.
 
 ## Requirements
 
