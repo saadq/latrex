@@ -1,46 +1,32 @@
-import { delimiter, join } from "https://deno.land/std@0.113.0/path/mod.ts";
+import { delimiter, join } from 'https://deno.land/std@0.113.0/path/mod.ts';
 
-/**
- * latrex options
- */
+/** Options for the latrex function. */
 interface Options {
-  /**
-   * The command to run for your compiling your LaTeX document (pdflatex, xetex, /user/bin/custom-tex, etc).
-   * Defaults to `pdflatex`.
-   */
+  /** The command to run for your compiling your LaTeX document (pdflatex, xetex, /user/bin/custom-tex, etc). Defaults to `pdflatex`. */
   command?: string;
 
-  /**
-   * Arguments passed to the command. Defaults to ['-halt-on-error'].
-   */
+  /** Arguments passed to the command. Defaults to ['-halt-on-error']. */
   args?: string[];
 
-  /**
-   * A list of absolute paths to the directory which contains the assets necessary for the doc.
-   */
+  /** A list of absolute paths to the directory which contains the assets necessary for the doc. */
   inputs?: string[];
 
-  /**
-   * The number of times to run options.command. Some documents require multiple
-   * passes. Only works when doc is a string. Defaults to 1.
-   */
+  /** The number of times to run options.command. Some documents require multiple * passes. Only works when doc is a string. Defaults to 1. */
   passes?: number;
 
-  /**
-   * The path to the file where you want to save the contents of the error log
-   * to.
-   */
+  /** The path to the file where you want to save the contents of the error log to. */
   errorLogsPath?: string;
 }
 
+/** A function that runs a LaTeX child process on a given docment. */
 export async function latrex(
   texDoc: Uint8Array | string,
   options: Options = {},
 ): Promise<Uint8Array> {
   const tempDir = await Deno.makeTempDir();
-  const jobName = "latrex";
+  const jobName = 'latrex';
   const {
-    command = "pdflatex",
+    command = 'pdflatex',
     args = [],
     inputs = [tempDir],
     passes = 1,
@@ -53,15 +39,15 @@ export async function latrex(
 
   for (let i = 0; i < passes; i++) {
     const process = Deno.run({
-      cmd: [command, `-jobname=${jobName}`, "-halt-on-error", ...args],
+      cmd: [command, `-jobname=${jobName}`, '-halt-on-error', ...args],
       cwd: tempDir,
       env: {
         TEXINPUTS: inputsPath,
         TTFONTS: inputsPath,
         OPENTYPEFONTS: inputsPath,
       },
-      stdin: "piped",
-      stdout: "piped",
+      stdin: 'piped',
+      stdout: 'piped',
     });
 
     await process.stdin.write(encodedDocument);
@@ -69,14 +55,14 @@ export async function latrex(
 
     const status = await process.status();
     if (!status.success) {
-      let errorMessage = "latrex was unable to compile the LaTeX document.";
+      let errorMessage = 'latrex was unable to compile the LaTeX document.';
 
       if (options.errorLogsPath) {
         const logPath = join(tempDir, `${jobName}.log`);
         await Deno.copyFile(logPath, options.errorLogsPath);
       } else {
         errorMessage +=
-          "You can pass the `errorLogsPath` option to `latrex()` to see the full error output.";
+          'You can pass the `errorLogsPath` option to `latrex()` to see the full error output.';
       }
 
       await Deno.remove(tempDir, { recursive: true });
