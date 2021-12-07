@@ -18,9 +18,16 @@ export interface Options {
   errorLogsPath?: string;
 }
 
-/** A function that runs a LaTeX child process on a given docment. */
+/**
+ * A function that runs a LaTeX child process on a given docment.
+ *
+ * @param document The LaTeX document to compile
+ * @param options Options to customize the behavior of the `latrex` child process
+ *
+ * @returns The compiled PDF document
+ */
 export async function latrex(
-  texDoc: Uint8Array | string,
+  document: Uint8Array | string,
   options: Options = {},
 ): Promise<Uint8Array> {
   const tempDir = await Deno.makeTempDir();
@@ -33,9 +40,9 @@ export async function latrex(
   } = options;
   const inputsPath = inputs.join(delimiter) + delimiter;
 
-  const encodedDocument = texDoc instanceof Uint8Array
-    ? texDoc
-    : new TextEncoder().encode(texDoc);
+  const encodedDocument = document instanceof Uint8Array
+    ? document
+    : new TextEncoder().encode(document);
 
   for (let i = 0; i < passes; i++) {
     const process = Deno.run({
