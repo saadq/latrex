@@ -1,7 +1,7 @@
 import { delimiter, join } from 'https://deno.land/std@0.113.0/path/mod.ts';
 
 /** Options for the latrex function. */
-interface Options {
+export interface Options {
   /** The command to run for your compiling your LaTeX document (pdflatex, xetex, /user/bin/custom-tex, etc). Defaults to `pdflatex`. */
   command?: string;
 
