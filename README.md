@@ -2,6 +2,10 @@
 
 > A small library for running LaTeX child processes in Deno.
 
+## Docs
+
+https://doc.deno.land/https://deno.land/x/latrex@v1.1.0/mod.ts
+
 ## Requirements
 
 LaTeX must be installed on your machine. You can download it [here](https://www.latex-project.org/get/).
