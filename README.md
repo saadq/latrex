@@ -4,7 +4,7 @@
 
 ## Docs
 
-https://doc.deno.land/https://deno.land/x/latrex@v1.1.0/mod.ts
+https://doc.deno.land/https://deno.land/x/latrex@v1.1.1/mod.ts
 
 ## Requirements
 
@@ -16,7 +16,7 @@ LaTeX must be installed on your machine. You can download it [here](https://www.
 ### TeX file
 
 ```ts
-import { latrex } from "https://deno.land/x/latrex/mod.ts";
+import { latrex } from "https://deno.land/x/latrex@v1.1.1/mod.ts";
 
 const document = await Deno.readFile("./document.tex");
 const pdf = await latrex(document);
@@ -26,7 +26,7 @@ await Deno.writeFile("./output.pdf", pdf);
 ### TeX string
 
 ```ts
-import { latrex } from "https://deno.land/x/latrex/mod.ts";
+import { latrex } from "https://deno.land/x/latrex@v1.1.1/mod.ts";
 
 const document = `
   \\documentclass{article}
